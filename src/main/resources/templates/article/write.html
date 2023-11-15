@@ -1,16 +1,20 @@
-<form style="display: flex; flex-direction: column; gap:20px; max-width:500px;">
-    <input type="text" name="title" id="input-title" placeholder="제목">
+<form method="POST" onsubmit="submitWriteForm(this); return false;"
+      style="display: flex; flex-direction: column; gap:20px; max-width:500px;">
+    <input type="text" name="title" placeholder="제목">
 
-    <input type="text" name="body" id="input-body" placeholder="내용">
+    <input type="text" name="body" placeholder="내용">
 
-    <a href="javascript:;" onclick="submitWriteForm();">
+    <!-- javascript:; 는 아무것도 하지 않는다는 뜻 -->
+    <!-- <form method="POST" action="/article/write" -->
+    <button type="submit">
         글쓰기
-    </a>
+    </button>
 </form>
+<!--폼 안에 버튼이 있으면 깔끔하게 지워진다--> <!--폼이 전송되기 때문에-->
 <script>
-    function submitWriteForm() {
-        const inputTitle = document.getElementById('input-title');
-        const inputBody = document.getElementById('input-body');
+    function submitWriteForm(form) {
+        const inputTitle = form.title;
+        const inputBody = form.body;
 
         inputTitle.value = inputTitle.value.trim();
         inputBody.value = inputBody.value.trim();
@@ -18,17 +22,20 @@
         const title = inputTitle.value;
         const body = inputBody.value;
 
-        if (title.length === 0) {
-            alert('제목을 입력해주세요');
+        if (title.length == 0) {
+            alert('제목을 입력해주세요.');
             inputTitle.focus();
+
             return;
         }
 
-        if (body.length === 0) {
-            alert('내용을 입력해주세요');
+        if (body.length == 0) {
+            alert('내용을 입력해주세요.');
             inputBody.focus();
+
             return;
         }
-        location.href = `/article/doWrite?title=${title}&body=${body}`;
+
+        form.submit();
     }
 </script>
