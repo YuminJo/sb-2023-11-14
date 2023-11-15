@@ -1,4 +1,4 @@
-package com.ll.sb20231114.domain.home.home.controller;
+package com.ll.sb20231114;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,9 +88,9 @@ public class HomeController {
 	@GetMapping("/calc8")
 	@ResponseBody
 	Person showCalc8(
-		String name, int age, String address
+		String name, int age
 	) {
-		return new Person(name, age, address);
+		return new Person(name, age);
 	}
 
 	@GetMapping("/calc9")
@@ -116,42 +116,46 @@ public class HomeController {
 
 	@GetMapping("/calc11")
 	@ResponseBody
-	List<Person2> showCalc11(
+	List<Integer> showCalc11() {
+		List<Integer> nums = new ArrayList<>() {{
+			add(10);
+			add(-510);
+			add(10010);
+		}};
+
+		return nums;
+	}
+
+	@GetMapping("/calc12")
+	@ResponseBody
+	int[] showCalc12() {
+		int[] nums = new int[]{10, -510, 10010};
+
+		return nums;
+	}
+
+	@GetMapping("/calc13")
+	@ResponseBody
+	List<Person2> showCalc13(
 		String name, int age
 	) {
 		List<Person2> persons = new ArrayList<>() {{
 			add(new Person2(name, age));
 			add(new Person2(name + "!", age + 1));
-			add(new Person2(name + "!", age + 2));
+			add(new Person2(name + "!!", age + 2));
 		}};
 
 		return persons;
 	}
 
-	@GetMapping("/calc12")
-	@ResponseBody
-	int[] showCalc12(
-		int[] nums
-	) {
-		int[] nums2 = new int[] {10, -510, 10010};
-
-		return nums2;
-	}
-
 	@GetMapping("/calc14")
 	@ResponseBody
 	String showCalc14() {
-		// String html = "";
-		//
-		// html += "<div>";
-		// html += "<input type=\"test\" placeholder=\"내용\">";
-		// html += "</div>";
+		String html = "";
 
-		String html = """
-						<div>
-						<input type="test" placeholder="내용">
-						</div>
-			""";
+		html += "<div>";
+		html += "<input type=\"text\" placeholder=\"내용\">";
+		html += "</div>";
 
 		return html;
 	}
@@ -162,7 +166,7 @@ public class HomeController {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("<div>");
-		sb.append("<input type=\"test\" placeholder=\"내용\">");
+		sb.append("<input type=\"text\" placeholder=\"내용\">");
 		sb.append("</div>");
 
 		return sb.toString();
@@ -170,50 +174,87 @@ public class HomeController {
 
 	@GetMapping("/calc16")
 	@ResponseBody
-	String showCalc16(
-		@RequestParam(defaultValue = "널임") String content
+	String showCalc16() {
+		String html = "<div><input type=\"text\" placeholder=\"내용\"></div>";
+
+		return html;
+	}
+
+	@GetMapping("/calc17")
+	@ResponseBody
+	String showCalc17() {
+		String html = """
+                <div>
+                    <input type="text" placeholder="내용">
+                </div>
+                """;
+
+		return html;
+	}
+
+	@GetMapping("/calc18")
+	@ResponseBody
+	String showCalc18() {
+		String html = """
+                <div>
+                    <input type="text" placeholder="내용" value="반가워요.">
+                </div>
+                """;
+
+		return html;
+	}
+
+	@GetMapping("/calc19")
+	@ResponseBody
+	String showCalc19(
+		@RequestParam(defaultValue = "") String subject,
+		@RequestParam(defaultValue = "") String content
 	) {
 		String html = """
-						<div>
-						<input type="test" placeholder="%s">
-						</div>
-			""".formatted(content);
+                <div>
+                    <input type="text" placeholder="제목" value="%s">
+                </div>
+                <div>
+                    <input type="text" placeholder="내용" value="%s">
+                </div>
+                """.formatted(subject, content);
+
 		return html;
 	}
 
 	@GetMapping("/calc20")
-	String showCalc20(){
+	String showCalc20() {
 		return "calc20";
 	}
 
 	@GetMapping("/calc21")
-	String showCalc21(Model model){
-		model.addAttribute("v1","안녕");
-		model.addAttribute("v2","반가워");
-		return "calc20";
+	String showCalc21(Model model) {
+		model.addAttribute("v1", "안녕");
+		model.addAttribute("v2", "반가워");
+		return "calc21";
 	}
 
-	private int num = 0;
+	int num = 0;
+
 	@GetMapping("/calc22")
 	@ResponseBody
-	int showCalc22()
-	{
-		if(num < 100)
+	int showCalc22() {
 		num++;
+
 		return num;
 	}
+}
 
-	@AllArgsConstructor
-	class Person {
-		public String name;
-		public int age;
-		public String address;
-	}
+@AllArgsConstructor
+class Person {
+	public String name;
+	public int age;
+}
 
-	@AllArgsConstructor
+@AllArgsConstructor
+class Person2 {
 	@Getter
-	class Person2 {
-		private String name;
-		private int age;
-	}
+	private String name;
+	@Getter
+	private int age;
 }

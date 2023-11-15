@@ -1,24 +1,16 @@
-<a href="http://localhost:8020/article/doWrite?title=제목임&body=내용임">
-    전송
-</a>
-<hr>
-<!--<form method="POST" action="/article/write" onsubmit="submitWriteForm(this); return false;"-->
-<form method="POST" onsubmit="submitWriteForm(this); return false;"
-      style="display: flex; flex-direction: column; gap:20px; max-width:500px;">
-    <input type="text" name="title" placeholder="제목">
+<form style="display: flex; flex-direction: column; gap:20px; max-width:500px;">
+    <input type="text" name="title" id="input-title" placeholder="제목">
 
-    <input type="text" name="body" placeholder="내용">
+    <input type="text" name="body" id="input-body" placeholder="내용">
 
-    <!-- javascript:; 는 아무것도 하지 않는다는 뜻 -->
-    <button type="submit">
+    <a href="javascript:;" onclick="submitWriteForm();">
         글쓰기
-    </button>
+    </a>
 </form>
-
 <script>
-    function submitWriteForm(form) {
-        const inputTitle = form.title;
-        const inputBody = form.body;
+    function submitWriteForm() {
+        const inputTitle = document.getElementById('input-title');
+        const inputBody = document.getElementById('input-body');
 
         inputTitle.value = inputTitle.value.trim();
         inputBody.value = inputBody.value.trim();
@@ -26,20 +18,17 @@
         const title = inputTitle.value;
         const body = inputBody.value;
 
-        if (title.length == 0) {
-            alert('제목을 입력해주세요.');
+        if (title.length === 0) {
+            alert('제목을 입력해주세요');
             inputTitle.focus();
-
             return;
         }
 
-        if (body.length == 0) {
-            alert('내용을 입력해주세요.');
+        if (body.length === 0) {
+            alert('내용을 입력해주세요');
             inputBody.focus();
-
             return;
         }
-
-        form.submit();
+        location.href = `/article/doWrite?title=${title}&body=${body}`;
     }
 </script>
