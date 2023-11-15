@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.sb20231114.domain.article.article.entity.Article;
 import com.ll.sb20231114.domain.article.article.service.ArticleService;
 import com.ll.sb20231114.global.rsData.RsData;
@@ -14,6 +15,7 @@ import com.ll.sb20231114.global.rsData.RsData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,9 +44,11 @@ public class ArticleController {
 		return rs;
 	}
 
+	//전통적인 Servlet 방식
 	@PostMapping("/article/write2")
 	@ResponseBody
-	RsData write2(
+	@SneakyThrows
+	void write2(
 		HttpServletRequest req,
 		HttpServletResponse resp
 	) {
@@ -58,7 +62,9 @@ public class ArticleController {
 			article
 		);
 
-		return rs;
+		ObjectMapper objectMapper = new ObjectMapper();
+		resp.setCharacterEncoding("UTF-8");
+		resp.getWriter().println(objectMapper.writeValueAsString(rs));
 	}
 
 	@GetMapping("/article/getLastArticle")
@@ -71,5 +77,26 @@ public class ArticleController {
 	@ResponseBody
 	List<Article> getArticles() {
 		return articleService.findAll();
+	}
+
+	@GetMapping("/article/articleServicePointer")
+	@ResponseBody
+	String articleServicePointer()
+	{
+		return articleService.toString();
+	}
+
+	@GetMapping("/article/httpServletRequestPointer")
+	@ResponseBody
+	String HttpServletRequestPointer(HttpServletRequest req)
+	{
+		return req.toString();
+	}
+
+	@GetMapping("/article/httpServletResponsePointer")
+	@ResponseBody
+	String HttpServletResponsePointer(HttpServletResponse resq)
+	{
+		return resq.toString();
 	}
 }
