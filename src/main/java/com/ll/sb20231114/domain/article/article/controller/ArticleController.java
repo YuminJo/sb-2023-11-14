@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.sb20231114.domain.article.article.entity.Article;
 import com.ll.sb20231114.domain.article.article.service.ArticleService;
+import com.ll.sb20231114.global.rq.Rq;
 import com.ll.sb20231114.global.rsData.RsData;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import lombok.SneakyThrows;
 @RequiredArgsConstructor
 public class ArticleController {
 	private final ArticleService articleService;
+	private final Rq rq;
 
 	@GetMapping("/article/write")
 	String showWrite() {
@@ -86,6 +88,8 @@ public class ArticleController {
 		return articleService.toString();
 	}
 
+	// 이런것이 있었다.
+	// 내부적으로 이런식으로 처리된다.
 	@GetMapping("/article/httpServletRequestPointer")
 	@ResponseBody
 	String HttpServletRequestPointer(HttpServletRequest req)
@@ -98,5 +102,12 @@ public class ArticleController {
 	String HttpServletResponsePointer(HttpServletResponse resq)
 	{
 		return resq.toString();
+	}
+
+	@GetMapping("/article/rqPointer")
+	@ResponseBody
+	String rqPointer()
+	{
+		return rq.toString();
 	}
 }
