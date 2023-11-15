@@ -11,6 +11,8 @@ import com.ll.sb20231114.domain.article.article.entity.Article;
 import com.ll.sb20231114.domain.article.article.service.ArticleService;
 import com.ll.sb20231114.global.rsData.RsData;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -29,6 +31,25 @@ public class ArticleController {
 		String title,
 		String body
 	) {
+		Article article = articleService.write(title, body);
+
+		RsData<Article> rs = new RsData<>(
+			"S-1",
+			"%d번 게시물이 작성되었습니다.".formatted(article.getId()),
+			article
+		);
+
+		return rs;
+	}
+
+	@PostMapping("/article/write2")
+	@ResponseBody
+	RsData write2(
+		HttpServletRequest req,
+		HttpServletResponse resp
+	) {
+		String title = req.getParameter("title");
+		String body = req.getParameter("body");
 		Article article = articleService.write(title, body);
 
 		RsData<Article> rs = new RsData<>(
