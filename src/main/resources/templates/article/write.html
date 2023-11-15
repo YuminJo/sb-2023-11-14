@@ -7,10 +7,21 @@
 <body>
 <h1> 글 쓰 GI </h1>
 <div style="display: flex; flex-direction: column; gap:20px; max-width: 500px;">
-    <input type="text" placeholder="제목">
-    <input type="text" placeholder="내용">
+    <input type="text" id="input-title" placeholder="제목">
+    <input type="text" id="input-body" placeholder="내용">
 
-    <a href="/article/dowrite?title=제목&body=내용">글쓰기</a>
+    <a href="javascript:;" onclick="submitWriteForm();">글쓰기</a>
 </div>
+
+<script>
+    function submitWriteForm() {
+        alert('실행됨');
+
+        const title = document.getElementById('input-title').value;
+        const body = document.getElementById('input-body').value;
+
+        location.href = `/article/dowrite?title=${title}&body=${body}`;
+    }
+</script>
 </body>
 </html>
