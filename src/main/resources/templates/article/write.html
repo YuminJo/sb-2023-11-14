@@ -6,6 +6,11 @@
 </head>
 <body>
 <h1> 글 쓰 GI </h1>
-<a href="/article/dowrite?title=제목&body=내용">글쓰기</a>
+<div style="display: flex; flex-direction: column; gap:20px; max-width: 500px;">
+    <input type="text" placeholder="제목">
+    <input type="text" placeholder="내용">
+
+    <a href="/article/dowrite?title=제목&body=내용">글쓰기</a>
+</div>
 </body>
 </html>
