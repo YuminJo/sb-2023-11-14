@@ -1,6 +1,5 @@
 package com.ll.sb20231114.domain.article.article.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -9,11 +8,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ll.sb20231114.domain.article.article.entity.Article;
+import com.ll.sb20231114.domain.article.article.service.ArticleService;
 import com.ll.sb20231114.global.rsData.RsData;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class ArticleController {
-	private List<Article> articles = new ArrayList<>();
+	private final ArticleService articleService;
 
 	@GetMapping("/article/write")
 	String showWrite() {
@@ -22,12 +25,11 @@ public class ArticleController {
 
 	@PostMapping("/article/write")
 	@ResponseBody
-	RsData doWrite(
+	RsData write(
 		String title,
 		String body
 	) {
-		Article article = new Article(articles.size() + 1, title, body);
-		articles.add(article);
+		Article article = articleService.write(title, body);
 
 		RsData<Article> rs = new RsData<>(
 			"S-1",
@@ -35,23 +37,18 @@ public class ArticleController {
 			article
 		);
 
-		String resultCode = rs.getResultCode();
-		String msg = rs.getMsg();
-		Article _article = rs.getData();
-
 		return rs;
 	}
 
 	@GetMapping("/article/getLastArticle")
 	@ResponseBody
 	Article getLastArticle() {
-		return articles.getLast();
+		return articleService.findLastArticle();
 	}
 
 	@GetMapping("/article/getArticles")
 	@ResponseBody
 	List<Article> getArticles() {
-		return articles;
+		return articleService.findAll();
 	}
 }
-
