@@ -1,27 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1> 글 쓰 GI </h1>
-<div style="display: flex; flex-direction: column; gap:20px; max-width: 500px;">
-    <input type="text" id="input-title" placeholder="제목">
-    <input type="text" id="input-body" placeholder="내용">
+<a href="http://localhost:8020/article/doWrite?title=제목임&body=내용임">
+    전송
+</a>
+<hr>
+<!--<form method="POST" action="/article/write" onsubmit="submitWriteForm(this); return false;"-->
+<form method="POST" onsubmit="submitWriteForm(this); return false;"
+      style="display: flex; flex-direction: column; gap:20px; max-width:500px;">
+    <input type="text" name="title" placeholder="제목">
 
-    <a href="javascript:;" onclick="submitWriteForm();">글쓰기</a>
-</div>
+    <input type="text" name="body" placeholder="내용">
+
+    <!-- javascript:; 는 아무것도 하지 않는다는 뜻 -->
+    <button type="submit">
+        글쓰기
+    </button>
+</form>
 
 <script>
-    function submitWriteForm() {
-        alert('실행됨');
+    function submitWriteForm(form) {
+        const inputTitle = form.title;
+        const inputBody = form.body;
 
-        const title = document.getElementById('input-title').value;
-        const body = document.getElementById('input-body').value;
+        inputTitle.value = inputTitle.value.trim();
+        inputBody.value = inputBody.value.trim();
 
-        location.href = `/article/dowrite?title=${title}&body=${body}`;
+        const title = inputTitle.value;
+        const body = inputBody.value;
+
+        if (title.length == 0) {
+            alert('제목을 입력해주세요.');
+            inputTitle.focus();
+
+            return;
+        }
+
+        if (body.length == 0) {
+            alert('내용을 입력해주세요.');
+            inputBody.focus();
+
+            return;
+        }
+
+        form.submit();
     }
 </script>
-</body>
-</html>
