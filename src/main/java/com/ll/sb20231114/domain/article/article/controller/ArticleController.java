@@ -29,7 +29,7 @@ public class ArticleController {
 
 		model.addAttribute("articles", articles);
 
-		return "article/list";
+		return "article/article/list";
 	}
 
 	@GetMapping("/article/detail/{id}")
@@ -38,12 +38,12 @@ public class ArticleController {
 
 		model.addAttribute("article", article);
 
-		return "article/detail";
+		return "article/article/detail";
 	}
 
 	@GetMapping("/article/write")
 	String showWrite() {
-		return "article/write";
+		return "article/article/write";
 	}
 
 	@Data
@@ -58,7 +58,7 @@ public class ArticleController {
 	String write(@Valid WriteForm writeForm) {
 		Article article = articleService.write(writeForm.title, writeForm.body);
 
-		return rq.redirect("/article/detail","%d번 게시물 생성되었습니다..".formatted(article.getId()));
+		return rq.redirect("/article/list", "%d번 게시물 생성되었습니다.".formatted(article.getId()));
 	}
 
 	@GetMapping("/article/modify/{id}")
@@ -67,7 +67,7 @@ public class ArticleController {
 
 		model.addAttribute("article", article);
 
-		return "article/modify";
+		return "article/article/modify";
 	}
 
 	@Data
@@ -82,13 +82,13 @@ public class ArticleController {
 	String modify(@PathVariable long id, @Valid ModifyForm modifyForm) {
 		articleService.modify(id, modifyForm.title, modifyForm.body);
 
-		return rq.redirect("/article/list","%d번 게시물 수정되었습니다..".formatted(id));
+		return rq.redirect("/article/list", "%d번 게시물 수정되었습니다.".formatted(id));
 	}
 
 	@GetMapping("/article/delete/{id}")
 	String delete(@PathVariable long id) {
 		articleService.delete(id);
 
-		return rq.redirect("/article/list","%d번 게시물 삭제되었습니다..".formatted(id));
+		return rq.redirect("/article/list", "%d번 게시물 삭제되었습니다.".formatted(id));
 	}
 }

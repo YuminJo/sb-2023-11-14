@@ -1,0 +1,12 @@
+<html layout:decorate="~{global/layout}" xmlns:th="http://www.thymeleaf.org" lang="ko">
+
+<div layout:fragment="content">
+    <h1>리스트</h1>
+
+    <ul th:if="${articles.size()} > 0">
+        <li th:each="article : ${articles.reversed()}">
+            <a th:href="|/article/detail/${article.id}|" th:text="|${article.id}번 : ${article.title}|"></a>
+        </li>
+    </ul>
+</div>
+</html>
