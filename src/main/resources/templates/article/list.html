@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+article/list
+<ul th:if="${articles.size} >= 2">
+    <li th:text="${articles[0].title}"></li>
+    <li th:text="${articles[1].title}"></li>
+    <li>글 3</li>
+    <li>글 4</li>
+    <li>글 5</li>
+</ul>
+
+<hr>
+[[${articles}]]
+</body>
+</html>

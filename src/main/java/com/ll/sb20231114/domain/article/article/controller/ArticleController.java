@@ -15,6 +15,9 @@ import com.ll.sb20231114.global.rsData.RsData;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -23,6 +26,14 @@ public class ArticleController {
 	private final ArticleService articleService;
 	private final Rq rq;
 
+	@Data
+	public static class WriteForm {
+		@NotBlank
+		private String title;
+		@NotBlank
+		private String body;
+	}
+
 	@GetMapping("/article/write")
 	String showWrite() {
 		return "article/write";
@@ -30,56 +41,22 @@ public class ArticleController {
 
 	@PostMapping("/article/write")
 	@ResponseBody
-	RsData write(
-		String title,
-		String body
-	) {
-		if ( title == null || title.trim().isEmpty()) {
-			return new RsData<>(
-				"F-1",
-				"제목을 입력해주세요."
-			);
-		}
+	RsData write(@Valid WriteForm writeForm) {
+		Article article = articleService.write(writeForm.title, writeForm.body);
 
-		if ( body == null || body.trim().isEmpty()) {
-			return new RsData<>(
-				"F-2",
-				"내용을 입력해주세요."
-			);
-		}
-		Article article = articleService.write(title, body);
-
-		RsData<Article> rs = new RsData<>(
-			"S-1",
-			"%d번 게시물이 작성되었습니다.".formatted(article.getId()),
-			article
-		);
+		RsData<Article> rs = new RsData<>("S-1", "%d번 게시물이 작성되었습니다.".formatted(article.getId()), article);
 
 		return rs;
 	}
 
-	// //전통적인 Servlet 방식
-	// @PostMapping("/article/write2")
-	// @ResponseBody
-	// @SneakyThrows
-	// void write2(
-	// 	HttpServletRequest req,
-	// 	HttpServletResponse resp
-	// ) {
-	// 	String title = req.getParameter("title");
-	// 	String body = req.getParameter("body");
-	// 	Article article = articleService.write(title, body);
-	//
-	// 	RsData<Article> rs = new RsData<>(
-	// 		"S-1",
-	// 		"%d번 게시물이 작성되었습니다.".formatted(article.getId()),
-	// 		article
-	// 	);
-	//
-	// 	ObjectMapper objectMapper = new ObjectMapper();
-	// 	resp.setCharacterEncoding("UTF-8");
-	// 	resp.getWriter().println(objectMapper.writeValueAsString(rs));
-	// }
+	@GetMapping("/article/list")
+	String showList(Model model) {
+		List<Article> articles = articleService.findAll();
+
+		model.addAttribute("articles",articles);
+
+		return "article/list";
+	}
 
 	@GetMapping("/article/getLastArticle")
 	@ResponseBody
@@ -95,8 +72,7 @@ public class ArticleController {
 
 	@GetMapping("/article/articleServicePointer")
 	@ResponseBody
-	String articleServicePointer()
-	{
+	String articleServicePointer() {
 		return articleService.toString();
 	}
 
@@ -104,22 +80,19 @@ public class ArticleController {
 	// 내부적으로 이런식으로 처리된다.
 	@GetMapping("/article/httpServletRequestPointer")
 	@ResponseBody
-	String HttpServletRequestPointer(HttpServletRequest req)
-	{
+	String HttpServletRequestPointer(HttpServletRequest req) {
 		return req.toString();
 	}
 
 	@GetMapping("/article/httpServletResponsePointer")
 	@ResponseBody
-	String HttpServletResponsePointer(HttpServletResponse resq)
-	{
+	String HttpServletResponsePointer(HttpServletResponse resq) {
 		return resq.toString();
 	}
 
 	@GetMapping("/article/rqPointer")
 	@ResponseBody
-	String rqPointer()
-	{
+	String rqPointer() {
 		return rq.toString();
 	}
 
