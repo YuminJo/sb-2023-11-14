@@ -11,3 +11,10 @@
 <h2>번호 : <span th:text="${article.id}"></span></h2>
 <h2>내용</h2>
 <div th:text="${article.body}"></div>
+
+<hr>
+
+<ul style="display: flex; gap: 20px;">
+    <li><a th:href="|/article/modify/${article.id}|">글 수정</a></li>
+    <li><a th:href="|/article/delete/${article.id}|">글 삭제</a></li>
+</ul>
