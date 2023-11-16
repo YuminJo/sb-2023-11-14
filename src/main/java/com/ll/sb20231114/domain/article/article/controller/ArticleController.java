@@ -1,7 +1,5 @@
 package com.ll.sb20231114.domain.article.article.controller;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ll.sb20231114.domain.article.article.entity.Article;
 import com.ll.sb20231114.domain.article.article.service.ArticleService;
+import com.ll.sb20231114.global.rq.Rq;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -22,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ArticleController {
 	private final ArticleService articleService;
+	private final Rq rq;
 
 	@GetMapping("/article/list")
 	String showList(Model model) {
@@ -58,10 +58,7 @@ public class ArticleController {
 	String write(@Valid WriteForm writeForm) {
 		Article article = articleService.write(writeForm.title, writeForm.body);
 
-		String msg = "%d번 게시물 생성되었습니다.".formatted(article.getId());
-		msg = URLEncoder.encode(msg, StandardCharsets.UTF_8);
-
-		return "redirect:/article/list?msg=" + msg;
+		return rq.redirect("/article/detail","%d번 게시물 생성되었습니다..".formatted(article.getId()));
 	}
 
 	@GetMapping("/article/modify/{id}")
@@ -82,21 +79,16 @@ public class ArticleController {
 	}
 
 	@PostMapping("/article/modify/{id}")
-	String write(@PathVariable long id, @Valid ModifyForm modifyForm) {
+	String modify(@PathVariable long id, @Valid ModifyForm modifyForm) {
 		articleService.modify(id, modifyForm.title, modifyForm.body);
 
-		String msg = "%d번 게시물 수정되었습니다..".formatted(id);
-		msg = URLEncoder.encode(msg, StandardCharsets.UTF_8);
-
-		return "redirect:/article/list?msg=" + msg;
+		return rq.redirect("/article/list","%d번 게시물 수정되었습니다..".formatted(id));
 	}
 
 	@GetMapping("/article/delete/{id}")
 	String delete(@PathVariable long id) {
 		articleService.delete(id);
 
-		String msg = "id %d, article deleted".formatted(id);
-
-		return "redirect:/article/list?msg=" + msg;
+		return rq.redirect("/article/list","%d번 게시물 삭제되었습니다..".formatted(id));
 	}
 }
