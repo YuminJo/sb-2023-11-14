@@ -2,6 +2,7 @@ package com.ll.sb20231114.domain.article.article.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -34,5 +35,11 @@ public class ArticleRepository {
 
 	public List<Article> findAll() {
 		return articles;
+	}
+
+	public Optional<Article> findById(long id) {
+		return articles.stream()
+			.filter(article -> article.getId() == id)
+			.findFirst();
 	}
 }
