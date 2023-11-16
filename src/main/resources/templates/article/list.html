@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-article/list
-<ul th:if="${articles.size} >= 2">
-    <li th:text="${articles[0].title}"></li>
-    <li th:text="${articles[1].title}"></li>
-    <li>글 3</li>
-    <li>글 4</li>
-    <li>글 5</li>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<h1>리스트</h1>
+
+<ul style="display: flex; gap: 20px;">
+    <li><a href="/article/write">글 쓰기</a></li>
+    <li><a href="/article/list">글 목록</a></li>
+</ul>
+
+<ul th:if="${articles.size} > 0">
+    <li th:each="article : ${articles.reversed}">
+        <a th:href="|/article/detail/${article.id}|" th:text="|${article.id}번 : ${article.title}|"></a>
+    </li>
 </ul>
 
 <hr>
+
 [[${articles}]]
-</body>
-</html>
