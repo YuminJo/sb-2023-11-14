@@ -6,7 +6,6 @@ import org.springframework.web.context.annotation.RequestScope;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-// @ApplicationScope 무한한거
 @RequestScope
 @Component
 public class Rq {

@@ -15,6 +15,7 @@ import lombok.Getter;
 
 @Controller
 public class HomeController {
+
 	@GetMapping("/")
 	@ResponseBody
 		// 이 함수의 리턴값을 그대로 브라우저에 전송하라는 의미

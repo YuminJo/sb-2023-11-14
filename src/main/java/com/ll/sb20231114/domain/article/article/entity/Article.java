@@ -5,14 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 @AllArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 public class Article {
 	private Long id;
 	private String title;
 	private String body;
 
-	public Article(String title,String body)
-	{
+	public Article(String title, String body) {
 		this.title = title;
 		this.body = body;
 	}

@@ -1,26 +1,14 @@
-<h1>글 작성</h1>
-
-<ul style="display: flex; gap: 20px;">
-    <li><a href="/article/write">글 쓰기</a></li>
-    <li><a href="/article/list">글 목록</a></li>
-</ul>
-
 <form method="POST" onsubmit="submitWriteForm(this); return false;"
       style="display: flex; flex-direction: column; gap:20px; max-width:500px;">
     <input type="text" name="title" placeholder="제목">
 
     <input type="text" name="body" placeholder="내용">
 
-    <!-- javascript:; 는 아무것도 하지 않는다는 뜻 -->
-    <!-- <form method="POST" action="/article/write" -->
     <button type="submit">
         글쓰기
     </button>
-
-<!--    <input onclick="$(this).closest('form').setAttribute('action','/article/write2')" type="submit" value="2글쓰기">-->
-<!-- 나랑 가장 가까운 폼의 액션의 값을 Article Write2로 바꾼다-->
 </form>
-<!--폼 안에 버튼이 있으면 깔끔하게 지워진다--> <!--폼이 전송되기 때문에-->
+
 <script>
     function submitWriteForm(form) {
         const inputTitle = form.title;
