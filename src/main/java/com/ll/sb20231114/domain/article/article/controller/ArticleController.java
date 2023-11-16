@@ -36,6 +36,11 @@ public class ArticleController {
 	) {
 		Article article = articleService.write(title, body);
 
+		if (title == null || title.trim().isEmpty())
+		{
+			throw new IllegalArgumentException("제목을 입력해주세요.");
+		}
+
 		RsData<Article> rs = new RsData<>(
 			"S-1",
 			"%d번 게시물이 작성되었습니다.".formatted(article.getId()),
