@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @AllArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
 public class Article {
 	private Long id;
 	private String title;

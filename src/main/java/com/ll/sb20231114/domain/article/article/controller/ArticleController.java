@@ -15,6 +15,9 @@ import com.ll.sb20231114.global.rsData.RsData;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -28,24 +31,20 @@ public class ArticleController {
 		return "article/write";
 	}
 
+	@Data
+	public static class WriteForm {
+		@NotBlank(message = "")
+		private String title;
+		@NotBlank
+		private String body;
+	}
+
 	@PostMapping("/article/write")
 	@ResponseBody
-	RsData write(
-		String title,
-		String body
-	) {
-		Article article = articleService.write(title, body);
+	RsData write(@Valid WriteForm writeForm) {
+		Article article = articleService.write(writeForm.title,writeForm.body);
 
-		if (title == null || title.trim().isEmpty())
-		{
-			throw new IllegalArgumentException("제목을 입력해주세요.");
-		}
-
-		RsData<Article> rs = new RsData<>(
-			"S-1",
-			"%d번 게시물이 작성되었습니다.".formatted(article.getId()),
-			article
-		);
+		RsData<Article> rs = new RsData<>("S-1", "%d번 게시물이 작성되었습니다.".formatted(article.getId()), article);
 
 		return rs;
 	}
