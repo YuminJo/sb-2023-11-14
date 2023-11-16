@@ -16,5 +16,5 @@
 
 <ul style="display: flex; gap: 20px;">
     <li><a th:href="|/article/modify/${article.id}|">글 수정</a></li>
-    <li><a th:href="|/article/delete/${article.id}|">글 삭제</a></li>
+    <li><a onclick="return confirm('ㄹㅇ 삭제할까요?');" th:href="|/article/delete/${article.id}|">글 삭제</a></li>
 </ul>
