@@ -6,6 +6,10 @@
     <li><a href="/article/list">글 목록</a></li>
 </ul>
 
+<div style="color: red;" th:if="${param.msg} != null">
+    메세지 : [[${param.msg}]]
+</div>
+
 <ul th:if="${articles.size()} > 0">
     <li th:each="article : ${articles.reversed()}">
         <a th:href="|article/detail/${article.id}|" th:text="|${article.id}번 : ${article.title}|"></a>

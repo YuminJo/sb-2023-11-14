@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ll.sb20231114.domain.article.article.entity.Article;
 import com.ll.sb20231114.domain.article.article.service.ArticleService;
 import com.ll.sb20231114.global.rq.Rq;
-import com.ll.sb20231114.global.rsData.RsData;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,13 +39,12 @@ public class ArticleController {
 	}
 
 	@PostMapping("/article/write")
-	@ResponseBody
-	RsData write(@Valid WriteForm writeForm) {
+	String write(@Valid WriteForm writeForm) {
 		Article article = articleService.write(writeForm.title,writeForm.body);
 
-		RsData<Article> rs = new RsData<>("S-1", "%d번 게시물이 작성되었습니다.".formatted(article.getId()), article);
+		String msg = "id %d, article created".formatted(article.getId());
 
-		return rs;
+		return "redirect:/article/list?msg=" + msg;
 	}
 
 	@GetMapping("/article/list")
