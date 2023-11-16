@@ -34,14 +34,14 @@
             const body = inputBody.value;
 
             if (title.length == 0) {
-                alert('제목을 입력해주세요.');
+                toastWarning('제목을 입력해주세요.');
                 inputTitle.focus();
 
                 return;
             }
 
             if (body.length == 0) {
-                alert('내용을 입력해주세요.');
+                toastWarning('내용을 입력해주세요.');
                 inputBody.focus();
 
                 return;
