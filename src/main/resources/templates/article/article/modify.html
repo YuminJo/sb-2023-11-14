@@ -1,17 +1,25 @@
 <html layout:decorate="~{global/layout}" xmlns:th="http://www.thymeleaf.org" lang="ko">
 
-<div layout:fragment="content">
-    <h1>글 수정</h1>
+<div layout:fragment="content" class="p-2">
 
-    <form method="POST" onsubmit="submitModifyForm(this); return false;"
-          style="display: flex; flex-direction: column; gap:20px; max-width:500px;">
-        <input type="text" name="title" placeholder="제목" th:value="${article.title}">
+    <h1 class="font-bold mb-2">글 수정</h1>
 
-        <input type="text" name="body" placeholder="내용" th:value="${article.body}">
+    <form class="flex flex-col gap-4" method="POST" onsubmit="submitWriteForm(this); return false;">
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">제목</span>
+            </label>
+            <input th:value="${article.title}" type="text" name="title" placeholder="제목을 입력해주세요." class="input input-bordered"/>
+        </div>
 
-        <button type="submit">
-            글수정
-        </button>
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">내용</span>
+            </label>
+            <input th:value="${article.body}" type="text" name="body" placeholder="내용을 입력해주세요." class="input input-bordered"/>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit">글수정</button>
     </form>
 
     <script>
