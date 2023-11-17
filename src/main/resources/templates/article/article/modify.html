@@ -1,25 +1,29 @@
-<html layout:decorate="~{global/layout}" xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html layout:decorate="~{global/layout}">
 
 <div layout:fragment="content" class="p-2">
 
-    <h1 class="font-bold mb-2">글 수정</h1>
+    <h1 class="font-bold mb-2"><i class="fa-regular fa-pen-to-square"></i> 글 작성</h1>
 
-    <form class="flex flex-col gap-4" method="POST" onsubmit="submitWriteForm(this); return false;">
+    <form class="flex flex-col gap-4" method="POST" onsubmit="submitModifyForm(this); return false;">
         <div class="form-control">
             <label class="label">
                 <span class="label-text">제목</span>
             </label>
-            <input th:value="${article.title}" type="text" name="title" placeholder="제목을 입력해주세요." class="input input-bordered"/>
+            <input type="text" name="title" placeholder="제목을 입력해주세요." class="input input-bordered"
+                   th:value="${article.title}">
         </div>
 
         <div class="form-control">
             <label class="label">
                 <span class="label-text">내용</span>
             </label>
-            <input th:value="${article.body}" type="text" name="body" placeholder="내용을 입력해주세요." class="input input-bordered"/>
+            <input type="text" name="body" placeholder="내용을 입력해주세요." class="input input-bordered"
+                   th:value="${article.body}">
         </div>
 
-        <button class="btn btn-primary btn-block" type="submit">글수정</button>
+        <button class="btn btn-primary btn-block" type="submit">
+            <i class="fa-regular fa-pen-to-square"></i> 글 수정
+        </button>
     </form>
 
     <script>
@@ -50,5 +54,6 @@
             form.submit();
         }
     </script>
+
 </div>
 </html>
