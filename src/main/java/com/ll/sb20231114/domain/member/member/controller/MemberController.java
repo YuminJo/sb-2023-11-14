@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.ll.sb20231114.domain.member.member.entity.Member;
 import com.ll.sb20231114.domain.member.member.service.MemberService;
 import com.ll.sb20231114.global.rq.Rq;
 
@@ -22,28 +21,6 @@ public class MemberController {
 	@GetMapping("/member/login")
 	String showLogin() {
 		return "member/member/login";
-	}
-
-	@Data
-	public static class LoginForm {
-		@NotBlank
-		private String username;
-		@NotBlank
-		private String password;
-	}
-
-	@PostMapping("/member/login")
-	String login(@Valid LoginForm loginForm) {
-		Member member = memberService.findByUsername(loginForm.username).get();
-
-		if (!member.getPassword().equals(loginForm.password)) {
-			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-		}
-
-		rq.setSessionAttr("loginedMemberId", member.getId());
-		rq.setSessionAttr("authorities",member.getAuthorities());
-
-		return rq.redirect("/article/list", "로그인이 완료되었습니다.");
 	}
 
 	@GetMapping("/member/logout")

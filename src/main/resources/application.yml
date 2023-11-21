@@ -2,4 +2,8 @@ server:
   port: 8020
 spring:
   thymeleaf:
-    cache: off
+    cache: false
+  security:
+    user:
+      name: user
+      password: 123456

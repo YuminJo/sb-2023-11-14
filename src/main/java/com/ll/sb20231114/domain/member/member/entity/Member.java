@@ -2,6 +2,8 @@ package com.ll.sb20231114.domain.member.member.entity;
 
 import java.util.List;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,11 +30,11 @@ public class Member {
 		return username.equals("admin");
 	}
 
-	public List<String> getAuthorities() {
-		if ( isAdmin() ) {
-			return List.of("ROLE_ADMIN");
+	public List<SimpleGrantedAuthority> getAuthorities() {
+		if (isAdmin()) {
+			return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_MEMBER"));
 		}
 
-		return List.of("ROLE_MEMBER");
+		return List.of(new SimpleGrantedAuthority("ROLE_MEMBER"));
 	}
 }
