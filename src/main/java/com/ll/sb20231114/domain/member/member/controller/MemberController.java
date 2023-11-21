@@ -1,5 +1,6 @@
 package com.ll.sb20231114.domain.member.member.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,7 @@ public class MemberController {
 
 	@GetMapping("/member/logout")
 	String logout() {
-		rq.removeSessionAttr("loginedMemberId");
+		SecurityContextHolder.clearContext();
 
 		return rq.redirect("/article/list", "로그아웃이 되었습니다.");
 	}

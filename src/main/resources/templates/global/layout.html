@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="/resource/global.css">
     <script src="/resource/global.js"></script>
 
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 
@@ -43,7 +45,8 @@
                 <li th:unless="${@rq.logined}"><a href="/member/join"><i class="fa-solid fa-user-plus"></i> 회원가입</a>
                 </li>
                 <li th:if="${@rq.logined}"><a href="/member/me"><i class="fa-solid fa-user"></i> 내 정보</a></li>
-                <li th:if="${@rq.logined}"><a href="/member/logout"><i class="fa-solid fa-right-from-bracket"></i> 로그아웃</a>
+                <li th:if="${@rq.logined}">
+                    <a href="/member/logout" method="POST"><i class="fa-solid fa-right-from-bracket"></i> 로그아웃</a>
                 </li>
             </ul>
         </div>

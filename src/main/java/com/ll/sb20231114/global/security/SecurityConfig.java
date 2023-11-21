@@ -15,16 +15,18 @@ public class SecurityConfig {
 			.formLogin(
 				formLogin -> formLogin
 					.loginPage("/member/login")
-					.loginProcessingUrl("/member/login")
-					.usernameParameter("username")
-					.passwordParameter("password")
 					.defaultSuccessUrl("/article/list")
+			)
+			.logout(
+				logout -> logout
+					.logoutUrl("/member/logout")
+					.logoutSuccessUrl("/article/list")
 			)
 			.build();
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 }
