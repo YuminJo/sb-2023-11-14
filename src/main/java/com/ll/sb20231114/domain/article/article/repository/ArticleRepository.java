@@ -7,17 +7,27 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import com.ll.sb20231114.domain.article.article.entity.Article;
+import com.ll.sb20231114.domain.member.member.entity.Member;
+import com.ll.sb20231114.domain.member.member.repository.MemberRepository;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
 public class ArticleRepository {
-	private final List<Article> articles = new ArrayList<>() {{
-		add(new Article(1L,"제목1","내용1"));
-		add(new Article(2L,"제목2","내용2"));
-		add(new Article(3L,"제목3","내용3"));
-	}};
+	private final MemberRepository memberRepository;
+	private final List<Article> articles = new ArrayList<>();
+
+	@PostConstruct
+	void init() {
+
+		Member member1 = memberRepository.findById(1L).get();
+		Member member2 = memberRepository.findById(2L).get();
+
+		save(new Article(member1, "title1","content1"));
+		save(new Article(member2, "title2","content2"));
+	}
 
 	public Article save(Article article) {
 		if (article.getId() == null) {
@@ -27,10 +37,6 @@ public class ArticleRepository {
 		articles.add(article);
 
 		return article;
-	}
-
-	public Article findLastArticle() {
-		return articles.getLast();
 	}
 
 	public List<Article> findAll() {

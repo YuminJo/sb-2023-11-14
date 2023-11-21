@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ll.sb20231114.domain.article.article.entity.Article;
 import com.ll.sb20231114.domain.article.article.repository.ArticleRepository;
+import com.ll.sb20231114.domain.member.member.entity.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,16 +16,12 @@ import lombok.RequiredArgsConstructor;
 public class ArticleService {
 	private final ArticleRepository articleRepository;
 
-	public Article write(String title, String body) {
-		Article article = new Article(title, body);
+	public Article write(Member author, String title, String body) {
+		Article article = new Article(author, title, body);
 
 		articleRepository.save(article);
 
 		return article;
-	}
-
-	public Article findLastArticle() {
-		return articleRepository.findLastArticle();
 	}
 
 	public List<Article> findAll() {
