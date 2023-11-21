@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ll.sb20231114.domain.article.article.entity.Article;
 import com.ll.sb20231114.domain.article.article.service.ArticleService;
-import com.ll.sb20231114.domain.member.member.entity.Member;
-import com.ll.sb20231114.domain.member.member.service.MemberService;
 import com.ll.sb20231114.global.rq.Rq;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -24,7 +23,6 @@ import lombok.SneakyThrows;
 @RequiredArgsConstructor
 public class ArticleController {
 	private final ArticleService articleService;
-	private final MemberService memberService;
 	private final Rq rq;
 
 	@GetMapping("/article/list")
@@ -47,9 +45,6 @@ public class ArticleController {
 
 	@GetMapping("/article/write")
 	String showWrite() {
-		if (!rq.isLogined())
-			throw new RuntimeException("로그인 후 이용해주세요.");
-
 		return "article/article/write";
 	}
 
@@ -63,22 +58,17 @@ public class ArticleController {
 
 	@PostMapping("/article/write")
 	@SneakyThrows
-	String write(@Valid WriteForm writeForm) {
-		if (!rq.isLogined())
-			throw new RuntimeException("로그인 후 이용해주세요.");
-
-		Member loginedMember = rq.getMember();
-		Article article = articleService.write(loginedMember, writeForm.title, writeForm.body);
+	String write(@Valid WriteForm writeForm, HttpServletRequest req) {
+		Article article = articleService.write(rq.getMember(), writeForm.title, writeForm.body);
 
 		return rq.redirect("/article/list", "%d번 게시물 생성되었습니다.".formatted(article.getId()));
 	}
 
 	@GetMapping("/article/modify/{id}")
 	String showModify(Model model, @PathVariable long id) {
-		if (!rq.isLogined())
-			throw new RuntimeException("로그인 후 이용해주세요.");
-
 		Article article = articleService.findById(id).get();
+
+		if (!articleService.canModify(rq.getMember(), article)) throw new RuntimeException("수정권한이 없습니다.");
 
 		model.addAttribute("article", article);
 
@@ -95,20 +85,22 @@ public class ArticleController {
 
 	@PostMapping("/article/modify/{id}")
 	String modify(@PathVariable long id, @Valid ModifyForm modifyForm) {
-		if (!rq.isLogined())
-			throw new RuntimeException("로그인 후 이용해주세요.");
+		Article article = articleService.findById(id).get();
 
-		articleService.modify(id, modifyForm.title, modifyForm.body);
+		if (!articleService.canModify(rq.getMember(), article)) throw new RuntimeException("수정권한이 없습니다.");
+
+		articleService.modify(article, modifyForm.title, modifyForm.body);
 
 		return rq.redirect("/article/list", "%d번 게시물 수정되었습니다.".formatted(id));
 	}
 
 	@GetMapping("/article/delete/{id}")
 	String delete(@PathVariable long id) {
-		if (!rq.isLogined())
-			throw new RuntimeException("로그인 후 이용해주세요.");
+		Article article = articleService.findById(id).get();
 
-		articleService.delete(id);
+		if (!articleService.canDelete(rq.getMember(), article)) throw new RuntimeException("삭제권한이 없습니다.");
+
+		articleService.delete(article);
 
 		return rq.redirect("/article/list", "%d번 게시물 삭제되었습니다.".formatted(id));
 	}

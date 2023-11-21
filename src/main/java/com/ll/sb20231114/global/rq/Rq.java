@@ -38,7 +38,7 @@ public class Rq {
 	private long getMemberId() {
 		return Optional
 			.ofNullable(req.getSession().getAttribute("loginedMemberId"))
-			.map(id -> (long)id)
+			.map(id -> (long) id)
 			.orElse(0L);
 	}
 
@@ -51,18 +51,25 @@ public class Rq {
 			return null;
 		}
 
-		if (member == null) {
+		if (member == null)
 			member = memberService.findById(getMemberId()).get();
-		}
 
 		return member;
 	}
 
-	public void setSessionAttr(String name, long value) {
+	public void setSessionAttr(String name, Object value) {
 		req.getSession().setAttribute(name, value);
+	}
+
+	public <T> T getSessionAttr(String name) {
+		return (T) req.getSession().getAttribute(name);
 	}
 
 	public void removeSessionAttr(String name) {
 		req.getSession().removeAttribute(name);
+	}
+
+	public boolean isAdmin() {
+		return getMember().isAdmin();
 	}
 }

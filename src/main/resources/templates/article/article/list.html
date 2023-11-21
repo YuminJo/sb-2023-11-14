@@ -12,7 +12,8 @@
 
     <ul th:if="${articles.size} > 0">
         <li th:each="article : ${articles.reversed}">
-            <a class="link" th:href="|/article/detail/${article.id}|" th:text="|${article.id}번 : ${article.title} by ${article.author.username}|"></a>
+            <a class="link" th:href="|/article/detail/${article.id}|"
+               th:text="|${article.id}번 : ${article.title} by ${article.author.username}|"></a>
         </li>
     </ul>
 

@@ -11,7 +11,7 @@ import com.ll.sb20231114.domain.member.member.entity.Member;
 
 import lombok.RequiredArgsConstructor;
 
-@Service // 저는 단 한번만 생성되고, 그 이후에는 재사용되는 객체입니다.
+@Service
 @RequiredArgsConstructor
 public class ArticleService {
 	private final ArticleRepository articleRepository;
@@ -32,15 +32,26 @@ public class ArticleService {
 		return articleRepository.findById(id);
 	}
 
-	public void delete(long id) {
-		articleRepository.delete(id);
+	public void delete(Article article) {
+		articleRepository.delete(article);
 	}
 
-	public Article modify(long id, String title, String body) {
-		Article article = findById(id).get();
+	public void modify(Article article, String title, String body) {
 		article.setTitle(title);
 		article.setBody(body);
+	}
 
-		return article;
+	public boolean canModify(Member actor, Article article) {
+		if (actor == null) return false;
+
+		return article.getAuthor().equals(actor);
+	}
+
+	public boolean canDelete(Member actor, Article article) {
+		if(actor.isAdmin()) return true;
+
+		if (actor == null) return false;
+
+		return article.getAuthor().equals(actor);
 	}
 }
