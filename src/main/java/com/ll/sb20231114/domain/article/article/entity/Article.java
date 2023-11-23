@@ -1,12 +1,7 @@
 package com.ll.sb20231114.domain.article.article.entity;
 
 import com.ll.sb20231114.domain.member.member.entity.Member;
-
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @Getter

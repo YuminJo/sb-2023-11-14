@@ -11,11 +11,13 @@ import com.ll.sb20231114.domain.member.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
+
 	public Member join(String username, String password) {
 		password = passwordEncoder.encode(password);
 		Member member = new Member(username, password);

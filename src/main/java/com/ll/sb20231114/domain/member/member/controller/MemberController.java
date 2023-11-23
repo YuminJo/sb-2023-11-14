@@ -1,9 +1,10 @@
 package com.ll.sb20231114.domain.member.member.controller;
 
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ll.sb20231114.domain.member.member.service.MemberService;
 import com.ll.sb20231114.global.rq.Rq;
@@ -13,25 +14,22 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/member")
 public class MemberController {
 	private final MemberService memberService;
 	private final Rq rq;
 
-	@GetMapping("/member/login")
+	@PreAuthorize("isAnonymous()")
+	@GetMapping("/login")
 	String showLogin() {
 		return "member/member/login";
 	}
 
-	@GetMapping("/member/logout")
-	String logout() {
-		SecurityContextHolder.clearContext();
-
-		return rq.redirect("/article/list", "로그아웃이 되었습니다.");
-	}
-
-	@GetMapping("/member/join")
+	@PreAuthorize("isAnonymous()")
+	@GetMapping("/join")
 	String showJoin() {
 		return "member/member/join";
 	}
@@ -44,6 +42,7 @@ public class MemberController {
 		private String password;
 	}
 
+	@PreAuthorize("isAnonymous()")
 	@PostMapping("/member/join")
 	String join(@Valid JoinForm joinForm) {
 		memberService.join(joinForm.username, joinForm.password);
