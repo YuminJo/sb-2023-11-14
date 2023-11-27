@@ -140,4 +140,25 @@ public class MemberControllerTest {
 		assertThat(member.getUsername()).isEqualTo("usernew");
 		assertThat(passwordEncoder.matches("1234", member.getPassword())).isTrue();
 	}
+
+	// POST /article/write
+	@Test
+	@DisplayName("중복된 username 사용은 가입실패")
+	void t6() throws Exception {
+		// WHEN
+		ResultActions resultActions = mvc
+			.perform(
+				post("/member/join")
+					.with(csrf())
+					.param("username", "admin")
+					.param("password", "1234")
+			)
+			.andDo(print());
+
+		// THEN
+		resultActions
+			.andExpect(status().is4xxClientError())
+			.andExpect(handler().handlerType(MemberController.class))
+			.andExpect(handler().methodName("join"));
+	}
 }
