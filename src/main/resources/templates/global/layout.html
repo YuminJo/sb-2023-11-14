@@ -1,46 +1,23 @@
-<!doctype html>
-<html lang="ko" data-theme="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>SIMPLE</title>
+<html layout:decorate="~{global/baseLayout}">
 
-    <!-- 폰트어썸 불러오기 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-    <!-- 제이쿼리 불러오기 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <!-- toastr 불러오기 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-    <link href="https://jhs512.github.io/toastr/toastr.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="/resource/global.css">
-    <script src="/resource/global.js"></script>
-
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-</head>
 <body>
-
-<link href="https://cdn.jsdelivr.net/npm/daisyui@4.0.8/dist/full.min.css" rel="stylesheet" type="text/css"/>
-<script src="https://cdn.tailwindcss.com"></script>
-
-<div class="navbar bg-base-100">
+<header layout:fragment="header" class="navbar bg-base-100">
     <div class="navbar-start">
         <div class="dropdown">
             <label tabindex="0" class="btn btn-ghost btn-circle">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h7"/>
                 </svg>
             </label>
-            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <ul tabindex="0"
+                class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <li th:if="${@rq.admin}"><a href="/adm"><i class="fa-solid fa-gauge-high"></i> 관리자</a></li>
                 <li><a href="/article/list"><i class="fa-solid fa-list"></i> 게시물 리스트</a></li>
                 <li th:if="${@rq.logined}"><a href="/article/write"><i class="fa-solid fa-pen"></i> 게시물 작성</a></li>
-                <li th:unless="${@rq.logined}"><a href="/member/login"><i class="fa-solid fa-right-to-bracket"></i> 로그인</a>
+                <li th:unless="${@rq.logined}"><a href="/member/login"><i class="fa-solid fa-right-to-bracket"></i>
+                    로그인</a>
                 </li>
                 <li th:unless="${@rq.logined}"><a href="/member/join"><i class="fa-solid fa-user-plus"></i> 회원가입</a>
                 </li>
@@ -59,17 +36,6 @@
             <span th:text="|welcome ${@rq.member.username}|"></span>
         </a>
     </div>
-</div>
-
-<script>
-    const queryParams = getQueryParams();
-
-    if (queryParams.msg) {
-        toastNotice(queryParams.msg);
-    }
-</script>
-
-<th:block layout:fragment="content"></th:block>
-
+</header>
 </body>
 </html>
