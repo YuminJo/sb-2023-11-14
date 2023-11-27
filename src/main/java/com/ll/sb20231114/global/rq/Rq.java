@@ -2,6 +2,7 @@ package com.ll.sb20231114.global.rq;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,6 +42,7 @@ public class Rq {
 
     public String redirect(String path, String msg) {
         msg = URLEncoder.encode(msg, StandardCharsets.UTF_8);
+        msg += ";ttl=" + (new Date().getTime() + 1000 * 5);
 
         return "redirect:" + path + "?msg=" + msg;
     }
@@ -77,10 +79,12 @@ public class Rq {
     }
 
     public boolean isAdmin() {
-        if (!isLogined()) return false;
+        if (!isLogined()) {
+            return false;
+        }
 
         return user.getAuthorities()
-                .stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+            .stream()
+            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 }

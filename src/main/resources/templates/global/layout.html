@@ -1,5 +1,9 @@
 <html layout:decorate="~{global/baseLayout}">
 
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">SIMPLE</title>
+</head>
+
 <body>
 <header layout:fragment="header" class="navbar bg-base-100">
     <div class="navbar-start">
@@ -14,7 +18,7 @@
             <ul tabindex="0"
                 class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 <li th:if="${@rq.admin}"><a href="/adm"><i class="fa-solid fa-gauge-high"></i> 관리자</a></li>
-                <li><a href="/article/list"><i class="fa-solid fa-list"></i> 게시물 리스트</a></li>
+                <li><a href="/article/list"><i class="fa-solid fa-list"></i> 게시물 목록</a></li>
                 <li th:if="${@rq.logined}"><a href="/article/write"><i class="fa-solid fa-pen"></i> 게시물 작성</a></li>
                 <li th:unless="${@rq.logined}"><a href="/member/login"><i class="fa-solid fa-right-to-bracket"></i>
                     로그인</a>

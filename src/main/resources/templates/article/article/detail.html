@@ -1,6 +1,8 @@
 <html layout:decorate="~{global/layout}">
 
-<head></head>
+<head>
+    <title th:text="|게시글 내용 - ${article.id}. ${article.title}|"></title>
+</head>
 
 <body>
 <div layout:fragment="content" class="p-2">
