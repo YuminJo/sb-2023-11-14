@@ -19,6 +19,10 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     public Member join(String username, String password) {
+        if ( findByUsername(username).isPresent()) {
+            return null;
+        }
+
         password = passwordEncoder.encode(password);
         Member member = new Member(username, password);
 

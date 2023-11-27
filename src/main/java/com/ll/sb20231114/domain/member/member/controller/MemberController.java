@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.ll.sb20231114.domain.member.member.entity.Member;
 import com.ll.sb20231114.domain.member.member.service.MemberService;
 import com.ll.sb20231114.global.rq.Rq;
 
@@ -43,7 +44,11 @@ public class MemberController {
     @PreAuthorize("isAnonymous()")
     @PostMapping("/member/join")
     String join(@Valid JoinForm joinForm) {
-        memberService.join(joinForm.username, joinForm.password);
+        Member member = memberService.join(joinForm.username, joinForm.password);
+
+        if ( member == null ) {
+            return rq.historyBack("이미 존재하는 회원입니다.");
+        }
 
         return rq.redirect("/member/login", "회원가입이 완료되었습니다.");
     }
