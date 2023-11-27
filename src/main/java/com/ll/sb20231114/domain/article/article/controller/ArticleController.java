@@ -66,7 +66,7 @@ public class ArticleController {
     String write(@Valid WriteForm writeForm, HttpServletRequest req) {
         Article article = articleService.write(rq.getMember(), writeForm.title, writeForm.body);
 
-        return rq.redirect("/article/list", "%d번 게시물 생성되었습니다.".formatted(article.getId()));
+        return rq.redirect("/", "%d번 게시물 생성되었습니다.".formatted(article.getId()));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -98,7 +98,7 @@ public class ArticleController {
 
         articleService.modify(article, modifyForm.title, modifyForm.body);
 
-        return rq.redirect("/article/list", "%d번 게시물 수정되었습니다.".formatted(id));
+        return rq.redirect("/", "%d번 게시물 수정되었습니다.".formatted(id));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -110,6 +110,12 @@ public class ArticleController {
 
         articleService.delete(article);
 
-        return rq.redirect("/article/list", "%d번 게시물 삭제되었습니다.".formatted(id));
+        return rq.redirect("/", "%d번 게시물 삭제되었습니다.".formatted(id));
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/write2")
+    String showWrite2() {
+        return "article/article/write2";
     }
 }

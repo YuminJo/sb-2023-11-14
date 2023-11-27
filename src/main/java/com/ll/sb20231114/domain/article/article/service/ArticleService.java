@@ -1,13 +1,15 @@
 package com.ll.sb20231114.domain.article.article.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.ll.sb20231114.domain.article.article.entity.Article;
 import com.ll.sb20231114.domain.article.article.repository.ArticleRepository;
 import com.ll.sb20231114.domain.member.member.entity.Member;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -51,5 +53,9 @@ public class ArticleService {
         if (actor.isAdmin()) return true;
 
         return article.getAuthor().equals(actor);
+    }
+
+    public Optional<Article> findLatest() {
+        return articleRepository.findLatest();
     }
 }

@@ -1,12 +1,14 @@
 package com.ll.sb20231114.domain.member.member.repository;
 
-import com.ll.sb20231114.domain.member.member.entity.Member;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Repository;
+
+import com.ll.sb20231114.domain.member.member.entity.Member;
+
+import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,17 +31,23 @@ public class MemberRepository {
 
     public Optional<Member> findById(long id) {
         return members.stream()
-                .filter(member -> member.getId() == id)
-                .findFirst();
+            .filter(member -> member.getId() == id)
+            .findFirst();
     }
 
     public Optional<Member> findByUsername(String username) {
         return members.stream()
-                .filter(member -> member.getUsername().equals(username))
-                .findFirst();
+            .filter(member -> member.getUsername().equals(username))
+            .findFirst();
     }
 
     public void delete(long id) {
         members.removeIf(member -> member.getId() == id);
+    }
+
+    public Optional<Member> findLatest() {
+        return Optional.ofNullable(
+            members.isEmpty() ? null : members.getLast()
+        );
     }
 }

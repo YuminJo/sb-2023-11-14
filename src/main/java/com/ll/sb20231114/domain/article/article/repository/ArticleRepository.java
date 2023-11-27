@@ -1,12 +1,14 @@
 package com.ll.sb20231114.domain.article.article.repository;
 
-import com.ll.sb20231114.domain.article.article.entity.Article;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Repository;
+
+import com.ll.sb20231114.domain.article.article.entity.Article;
+
+import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,11 +31,17 @@ public class ArticleRepository {
 
     public Optional<Article> findById(long id) {
         return articles.stream()
-                .filter(article -> article.getId() == id)
-                .findFirst();
+            .filter(article -> article.getId() == id)
+            .findFirst();
     }
 
     public void delete(Article article) {
         articles.remove(article);
+    }
+
+    public Optional<Article> findLatest() {
+        return Optional.ofNullable(
+            articles.isEmpty() ? null : articles.getLast()
+        );
     }
 }

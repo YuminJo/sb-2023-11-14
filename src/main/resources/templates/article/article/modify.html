@@ -6,10 +6,10 @@
 
 <body>
 
-<div layout:fragment="content" class="p-2">
+<div layout:fragment="content">
 
     <h1 class="font-bold mb-2">
-        <i class="fa-regular fa-pen-to-square"></i> 글 작성
+        <i class="fa-regular fa-pen-to-square"></i> 게시글 수정
     </h1>
 
     <form th:action class="flex flex-col gap-4" method="POST" onsubmit="submitModifyForm(this); return false;">
@@ -18,8 +18,8 @@
             <label class="label">
                 <span class="label-text">제목</span>
             </label>
-            <input type="text" name="title" placeholder="제목을 입력해주세요." class="input input-bordered"
-                   th:value="${article.title}">
+            <input type="text" name="title" th:value="${article.title}" placeholder="제목을 입력해주세요."
+                   class="input input-bordered">
         </div>
 
         <div class="form-control">
@@ -27,13 +27,12 @@
                 <span class="label-text">내용</span>
             </label>
 
-            <textarea maxlength="10000" rows="5" name="body" placeholder="내용을 입력해주세요."
-                      class="textarea textarea-bordered"
-                      th:text="${article.body}"></textarea>
+            <textarea name="body" th:text="${article.body}" maxlength="10000" rows="5" placeholder="내용을 입력해주세요."
+                      class="textarea textarea-bordered"></textarea>
         </div>
 
         <button class="btn btn-primary btn-block" type="submit">
-            <i class="fa-regular fa-pen-to-square"></i> 글 수정
+            <i class="fa-regular fa-pen-to-square"></i> 게시글 수정
         </button>
     </form>
 

@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<div layout:fragment="content" class="p-2">
+<div layout:fragment="content">
 
     <h1 class="font-bold mb-2"><i class="fa-solid fa-user-plus"></i> 회원가입</h1>
 
@@ -56,6 +56,8 @@
                 return;
             }
 
+            form.passwordConfirm.value = form.passwordConfirm.value.trim();
+
             if (form.passwordConfirm.value.length == 0) {
                 toastWarning('비밀번호 확인을 입력해주세요.');
                 form.passwordConfirm.focus();
@@ -63,7 +65,7 @@
                 return;
             }
 
-            if ( form.password.value != form.passwordConfirm.value ) {
+            if (form.password.value != form.passwordConfirm.value) {
                 toastWarning('비밀번호가 일치하지 않습니다.');
                 form.passwordConfirm.focus();
 
