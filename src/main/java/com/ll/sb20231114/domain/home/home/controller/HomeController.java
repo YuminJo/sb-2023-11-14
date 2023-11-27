@@ -1,17 +1,18 @@
 package com.ll.sb20231114.domain.home.home.controller;
 
-import jakarta.servlet.http.HttpSession;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class HomeController {
-    @GetMapping("/")
+    @GetMapping("")
     public String goToArticleList() {
         return "redirect:/article/list";
     }
