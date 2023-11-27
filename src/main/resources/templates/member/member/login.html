@@ -1,5 +1,8 @@
 <html layout:decorate="~{global/layout}">
 
+<head></head>
+
+<body>
 <div layout:fragment="content" class="p-2">
 
     <h1 class="font-bold mb-2"><i class="fa-solid fa-right-to-bracket"></i> 로그인</h1>
@@ -26,25 +29,20 @@
 
     <script>
         function submitLoginForm(form) {
-            const inputUsername = form.username;
-            const inputPassword = form.password;
+            form.username.value = form.username.value.trim();
 
-            inputUsername.value = inputUsername.value.trim();
-            inputPassword.value = inputPassword.value.trim();
-
-            const username = inputUsername.value;
-            const password = inputPassword.value;
-
-            if (username.length == 0) {
+            if (form.username.value.length == 0) {
                 toastWarning('아이디를 입력해주세요.');
-                inputUsername.focus();
+                form.username.focus();
 
                 return;
             }
 
-            if (password.length == 0) {
+            form.password.value = form.password.value.trim();
+
+            if (form.password.value.length == 0) {
                 toastWarning('비밀번호를 입력해주세요.');
-                inputPassword.focus();
+                form.password.focus();
 
                 return;
             }
@@ -55,4 +53,5 @@
 
 </div>
 
+</body>
 </html>
