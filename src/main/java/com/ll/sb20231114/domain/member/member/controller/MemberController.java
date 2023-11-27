@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.ll.sb20231114.domain.member.member.entity.Member;
 import com.ll.sb20231114.domain.member.member.service.MemberService;
 import com.ll.sb20231114.global.rq.Rq;
+import com.ll.sb20231114.global.rsData.RsData;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -44,12 +45,12 @@ public class MemberController {
     @PreAuthorize("isAnonymous()")
     @PostMapping("/member/join")
     String join(@Valid JoinForm joinForm) {
-        Member member = memberService.join(joinForm.username, joinForm.password);
+        RsData<Member> joinRs = memberService.join(joinForm.username, joinForm.password);
 
-        if ( member == null ) {
-            return rq.historyBack("이미 존재하는 회원입니다.");
+        if(joinRs.isFail()) {
+            return rq.historyBack(joinRs.getMsg());
         }
 
-        return rq.redirect("/member/login", "회원가입이 완료되었습니다.");
+        return rq.redirect("/member/login", joinRs.getMsg());
     }
 }
